@@ -1,10 +1,11 @@
 import * as z from "zod/v4";
+import { hanRegExp } from "$lib/cjkUtils";
 
 const baseText = z.coerce
                     .string()
                     .normalize()
                     .regex(
-                        new RegExp(/\p{sc=Han}/gu),
+                        hanRegExp,
                         "Input does not contain any Hanzi/Hanja/Kanji"
                     );
 

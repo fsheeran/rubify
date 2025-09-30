@@ -1,0 +1,1 @@
+export const hanRegExp = new RegExp(/\p{Script=Han}/u);

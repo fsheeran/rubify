@@ -1,25 +1,29 @@
-import { IDEOGRAPH_BLOCKS, makeUnicodeBlockRegex } from "./unicodeRanges";
+// import { IDEOGRAPH_BLOCKS, makeUnicodeBlockRegex } from "./unicodeRanges";
+import { hanRegExp } from "./cjkUtils";
 
-type indexPair = [number, number]
+type IndexPair = [number, number]
 
 interface Annotation {
-    indices: indexPair;
+    // annotation indices should be relative to segment, not full base text
+    indices: IndexPair;
     annotationText: string;
 }
 
 interface AnnotatedTextSegment {
-    indices: indexPair;
+    indices: IndexPair;
     annotations?: Annotation[];
 };
 
-interface RubiedText {
+interface AnnotatedText {
     baseText: string;
     segments: AnnotatedTextSegment[];
 }
 
 // parts of the base text not covered by annotated segments implicitly dont need annotations
-// an AnnotatedTextSegment without annotations means we counldnt determine up from what the annotation should be, but know there probably should be one
-// example: 'お寿司が食べたい'; through some magic algorithm, we've determined that 寿司 should be すし, but weren't able to figure out what to do with 食
+// an AnnotatedTextSegment without annotations means we counldnt determine what the annotation
+// should be exactly, but know there probably should be one
+// example: 'お寿司が食べたい'; through some magic algorithm,
+// we've determined that 寿司 should be すし, but weren't able to figure out what to do with 食
 
 // heres an example
 // let example: RubiedText = {
@@ -44,7 +48,28 @@ interface RubiedText {
 //   ]
 // }
 
-export default function (baseText: string): RubiedText {
+export default function (baseText: string): AnnotatedText {
     // for now just do based on if hanzi or not
-    // for (const char of baseText)
+    const segments: AnnotatedTextSegment[] = []
+    let currSegmentStart = -1;
+    for (let i = 0; i < baseText.length; i++) {
+        let char = baseText[i];
+        if (hanRegExp.test(char)) {
+            if (currSegmentStart == -1) {
+                currSegmentStart = i;
+            }
+        } else if (currSegmentStart != -1) {
+                segments.push({indices: [currSegmentStart, i]})
+                currSegmentStart = -1;
+        }
+    }
+
+    if (currSegmentStart != -1) {
+        segments.push({indices: [currSegmentStart, baseText.length]})
+    }
+
+    return {
+        baseText,
+        segments
+    }
 }

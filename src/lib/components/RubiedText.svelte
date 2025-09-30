@@ -2,7 +2,10 @@
     const { baseText, rubyText } = $props()
 </script>
 
-<ruby>
-  {baseText}
-  <rp>(</rp><rt>{rubyText}</rt><rp>)</rp>
-</ruby>
+<style>
+	ruby {
+		color: maroon;
+	}
+</style>
+
+<span><ruby>{baseText}<rp>(</rp><rt>{rubyText}</rt><rp>)</rp></ruby></span>
