@@ -50,6 +50,7 @@ async function buildDatabaseController(provider = DataProvider.LowDb): Promise<D
                 write: async (requestEntry) => {
                     db.update(({ requests }) => requests[requestEntry.uuid] = requestEntry)
                 },
+                // gonna need to handle some errors better here
                 read: async (uuid) => db.data.requests[uuid],
                 delete: async (uuid) => db.update(({ requests }) => delete requests[uuid]),
                 evict: async () => {

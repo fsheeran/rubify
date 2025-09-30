@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { PageProps } from "./$types";
+	import InputError from "$lib/components/InputError.svelte";
 
 	// note to self: data holds result of server.ts:load()
 	// form holds result of server.ts actions
-    let { data, form }: PageProps = $props();
+    let { form }: PageProps = $props();
 </script>
 
 
@@ -17,6 +18,9 @@
 	</label>
 	<button>Generate</button>
 </form>
-<!-- 
-data {JSON.stringify(data)}
-form {JSON.stringify(form)} -->
+
+{#if form?.error?.properties?.baseText}
+	{#each form?.error?.properties.baseText?.errors as error }
+		<InputError errorText={error}/>
+	{/each}
+{/if}

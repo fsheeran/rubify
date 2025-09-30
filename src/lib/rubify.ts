@@ -1,0 +1,50 @@
+import { IDEOGRAPH_BLOCKS, makeUnicodeBlockRegex } from "./unicodeRanges";
+
+type indexPair = [number, number]
+
+interface Annotation {
+    indices: indexPair;
+    annotationText: string;
+}
+
+interface AnnotatedTextSegment {
+    indices: indexPair;
+    annotations?: Annotation[];
+};
+
+interface RubiedText {
+    baseText: string;
+    segments: AnnotatedTextSegment[];
+}
+
+// parts of the base text not covered by annotated segments implicitly dont need annotations
+// an AnnotatedTextSegment without annotations means we counldnt determine up from what the annotation should be, but know there probably should be one
+// example: 'お寿司が食べたい'; through some magic algorithm, we've determined that 寿司 should be すし, but weren't able to figure out what to do with 食
+
+// heres an example
+// let example: RubiedText = {
+//   baseText: 'お寿司が食べたい',
+//   segments: [
+//     {
+//       indices: [1, 3],
+//       annotations:[
+//         {
+//           indices: [1, 2],
+//           annotationText: 'す'
+//         },
+//         {
+//           indices: [2, 3],
+//           annotationText: 'し'
+//         }
+//       ]
+//     },
+//     {
+//       indices: [4, 5]
+//     },
+//   ]
+// }
+
+export default function (baseText: string): RubiedText {
+    // for now just do based on if hanzi or not
+    // for (const char of baseText)
+}

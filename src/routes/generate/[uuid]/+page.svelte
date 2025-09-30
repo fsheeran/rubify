@@ -1,10 +1,14 @@
 <script lang="ts">
-	import Run from "$lib/Run.svelte";
+	import Run from "$lib/components/Run.svelte";
+	import type { PageProps } from "./$types";
+
+    let { data }: PageProps = $props();
 </script>
+
 
 <!-- {uuid} -->
 
-<h1>hi :3</h1>
+<h1>{data.baseText}</h1>
 
 <!-- 
 data {JSON.stringify(data)}
