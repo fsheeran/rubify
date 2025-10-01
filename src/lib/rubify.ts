@@ -1,23 +1,6 @@
 // import { IDEOGRAPH_BLOCKS, makeUnicodeBlockRegex } from "./unicodeRanges";
 import { hanRegExp } from "./cjkUtils";
-
-type IndexPair = [number, number]
-
-interface Annotation {
-    // annotation indices should be relative to segment, not full base text
-    indices: IndexPair;
-    annotationText: string;
-}
-
-interface AnnotatedTextSegment {
-    indices: IndexPair;
-    annotations?: Annotation[];
-};
-
-interface AnnotatedText {
-    baseText: string;
-    segments: AnnotatedTextSegment[];
-}
+import type { AnnotatedText, AnnotatedTextSegment } from "./types";
 
 // parts of the base text not covered by annotated segments implicitly dont need annotations
 // an AnnotatedTextSegment without annotations means we counldnt determine what the annotation

@@ -5,9 +5,6 @@
 
     const { baseRubyPairs }: RubiedTextProps = $props();
 
-    console.log(baseRubyPairs)
-
-
 </script>
 
 {#each baseRubyPairs as [baseText, rubyText]}
