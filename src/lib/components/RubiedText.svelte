@@ -1,11 +1,28 @@
 <script lang="ts">
-    const { baseText, rubyText } = $props()
+	let { baseText, rubyText, selectedTextId } = $props();
+
+	const uid = $props.id();
+
+	const setSelected = () => selectedTextId.selected = uid;
 </script>
 
-<style>
-	ruby {
-		color: maroon;
-	}
-</style>
+<span>
+    <ruby>
+        <span class="ruby-base">{baseText}</span>
+        <rt><div class="ruby-text" contenteditable="true">{rubyText}</div></rt>
+    </ruby>
+</span>
 
-<span><ruby>{baseText}<rp>(</rp><rt>{rubyText}</rt><rp>)</rp></ruby></span>
+<style>
+	.ruby-base {
+		color: maroon;
+		/* ruby-overhang: none */
+	}
+
+	.ruby-text {
+		background-color: lightpink;
+		flex: 1 1 auto;
+	}
+
+
+</style>

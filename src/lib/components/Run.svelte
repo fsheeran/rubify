@@ -5,12 +5,25 @@
 
     const { baseRubyPairs }: RubiedTextProps = $props();
 
+    const selectedTextId = $state({selected: null})
+
 </script>
 
+<style>
+    .container {
+		display: flex;
+		flex-flow: row wrap;
+        justify-content: center;
+        align-items: baseline;
+	}
+</style>
+
+<div class="container">
 {#each baseRubyPairs as [baseText, rubyText]}
     {#if rubyText === null}
         <UnrubiedText text={baseText}/>
     {:else}
-        <RubiedText baseText={baseText} rubyText={rubyText}></RubiedText>
+        <RubiedText baseText={baseText} rubyText={rubyText} selectedTextId={selectedTextId}></RubiedText>
     {/if}
 {/each}
+</div>
