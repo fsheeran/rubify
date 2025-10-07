@@ -5,6 +5,8 @@
 <style>
 	span {
 		color: burlywood;
+		font-size: var(--base-font-size);
+		/* line-height: var(--ruby-font-size); */
 	}
 </style>
 

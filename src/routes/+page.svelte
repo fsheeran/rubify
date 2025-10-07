@@ -32,6 +32,9 @@
 
 			prevSegEnd = segment.indices[1]
 		}
+		if (prevSegEnd < annotatedText.baseText.length) {
+			baseRubyPairs.push([annotatedText.baseText.slice(prevSegEnd), null]);
+		}
 		isInitialLoad = false;
 	}
 
@@ -41,10 +44,10 @@
 	<form method="POST">
 		<label>
 			your text
-			<input name="baseText"
+			<textarea name="baseText"
 			required
 			minlength="1"
-			maxlength="500">
+			maxlength="500"></textarea>
 		</label>
 		<button>Generate</button>
 	</form>
