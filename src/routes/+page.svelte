@@ -1,4 +1,7 @@
 <script lang="ts">
+
+	import './styles/global.css';
+
 	import Run from "$lib/components/Run.svelte";
 	import type { PageProps } from "./$types";
 	import type { BaseRubyPair } from "$lib/types";

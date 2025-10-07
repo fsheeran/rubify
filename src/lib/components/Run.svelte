@@ -5,29 +5,14 @@
 
     const { baseRubyPairs }: RubiedTextProps = $props();
 
-    const selectedTextId = $state({selected: null})
-
-    const rubyFontSize = 16;
-    const baseFontSize = 24;
-
-
 </script>
 
-<style>
-    .container {
-		display: flex;
-		flex-flow: row wrap;
-        justify-content: center;
-        align-items: flex-end;
-	}
-</style>
-
-<div class="container">
+<p>
 {#each baseRubyPairs as [baseText, rubyText]}
     {#if rubyText === null}
-        <UnrubiedText --base-font-size="{baseFontSize}px" --ruby-font-size="{rubyFontSize}px" text={baseText}/>
+        <UnrubiedText text={baseText}/>
     {:else}
-        <RubiedText --base-font-size="{baseFontSize}px" --ruby-font-size="{rubyFontSize}px" baseText={baseText} rubyText={rubyText} selectedTextId={selectedTextId}></RubiedText>
+        <RubiedText baseText={baseText} rubyText={rubyText} ></RubiedText>
     {/if}
 {/each}
-</div>
+</p>
