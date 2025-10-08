@@ -1,22 +1,29 @@
 <script lang="ts">
-    import type { PageProps } from "./$types";
+	import type { PageProps } from "./$types";
+	import InputError from "$lib/components/InputError.svelte";
 
-	// note to self: data holds result of server.ts:load()
-	// form holds result of server.ts actions
-    let { data, form }: PageProps = $props();
+    let { form }: PageProps = $props();
+
 </script>
 
+<style>
+	.vert-container {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+</style>
 
-<form method="POST">
-	<label>
-		your text
-		<input name="baseText"
+<form class="vert-container" method="POST">
+		<textarea name="baseText"
 		required
 		minlength="1"
-		maxlength="500">
-	</label>
+		maxlength="500"></textarea>
 	<button>Generate</button>
 </form>
-<!-- 
-data {JSON.stringify(data)}
-form {JSON.stringify(form)} -->
+
+{#if form?.error?.properties?.baseText}
+	{#each form?.error?.properties.baseText?.errors as error }
+		<InputError errorText={error}/>
+	{/each}
+{/if}
