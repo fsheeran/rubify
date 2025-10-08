@@ -42,21 +42,10 @@
 
 </script>
 
-{#if baseRubyPairs}
-	<Run baseRubyPairs={baseRubyPairs}/>
-{:else if form?.error?.properties?.baseText}
+{#if form?.error?.properties?.baseText}
 	{#each form?.error?.properties.baseText?.errors as error }
 		<InputError errorText={error}/>
 	{/each}
-{:else}
-	<form method="POST">
-		<label>
-			your text
-			<textarea name="baseText"
-			required
-			minlength="1"
-			maxlength="500"></textarea>
-		</label>
-		<button>Generate</button>
-	</form>
+{:else }
+    <Run baseRubyPairs={baseRubyPairs}/>
 {/if}

@@ -66,7 +66,7 @@ async function buildDatabaseController(provider = DataProvider.LowDb): Promise<D
             };
 
         default:
-            throw new TypeError(`I'm not even sure how you did this but ${provider} is not a valid DataProvider`);
+            throw new TypeError(`${provider} is not a valid DataProvider`);
     }
 
 }

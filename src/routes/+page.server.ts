@@ -27,6 +27,7 @@ export const load = async ({ cookies }): Promise<PageLoadResponse> => {
     if (sessionId) {
         const request = await db.read(sessionId);
         if (request) {
+            db.delete(sessionId);
             return {isInitialLoad: false, annotatedText: rubify(request.baseText)};
         }
     }
