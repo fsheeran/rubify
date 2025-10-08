@@ -42,21 +42,33 @@
 
 </script>
 
-{#if baseRubyPairs}
+<style>
+	.vert-container {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+	.button-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
+
+{#if baseRubyPairs.length > 0}
+<div class="vert-container">
 	<Run baseRubyPairs={baseRubyPairs}/>
+</div>
 {:else if form?.error?.properties?.baseText}
 	{#each form?.error?.properties.baseText?.errors as error }
 		<InputError errorText={error}/>
 	{/each}
 {:else}
-	<form method="POST">
-		<label>
-			your text
+	<form class="vert-container" method="POST">
 			<textarea name="baseText"
 			required
 			minlength="1"
 			maxlength="500"></textarea>
-		</label>
 		<button>Generate</button>
 	</form>
 {/if}
