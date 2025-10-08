@@ -43,22 +43,40 @@
 
 </script>
 
+<style>
+	.vert-container {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+	}
+	.button-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
+
+
 {#if isInitialLoad}
-	<form method="POST">
-		<label>
-			your text
+	<form class="vert-container" method="POST">
 			<textarea name="baseText"
 			required
 			minlength="1"
 			maxlength="500"></textarea>
-		</label>
 		<button>Generate</button>
 	</form>
 {:else if form?.error?.properties?.baseText}
+
 	{#each form?.error?.properties.baseText?.errors as error }
 		<InputError errorText={error}/>
 	{/each}
+
 {:else}
+
+<div class="vert-container">
 	<Run baseRubyPairs={baseRubyPairs}/>
-	<button onclick={() => isInitialLoad = true}>new request</button>
+	<div class="button-container">
+		<button onclick={() => isInitialLoad = true}>new request</button>
+	</div>
+</div>
 {/if}

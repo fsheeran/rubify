@@ -1,6 +1,6 @@
 import type { Actions } from './$types';
 import GenerateRequest from "$lib/schemas/GenerateRubyClientRequest";
-import { error, fail, redirect, type RequestEvent } from "@sveltejs/kit";
+import { error, fail, type RequestEvent } from "@sveltejs/kit";
 import db from "$lib/server/db";
 import { z } from "zod/v4";
 import rubify from '$lib/rubify';
@@ -35,7 +35,6 @@ export const load = async ({ cookies }): Promise<PageLoadResponse> => {
     cookies.set('sessionid', sid, { path: '/' });
     return {isInitialLoad: true}
 };
-
 
 
 async function handleGenerateRequest(event: RequestEvent) {
