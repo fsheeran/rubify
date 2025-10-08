@@ -1,17 +1,14 @@
 <script lang="ts">
 
-	import './styles/global.css';
-
 	import Run from "$lib/components/Run.svelte";
 	import type { PageProps } from "./$types";
 	import type { BaseRubyPair } from "$lib/types";
-	import InputError from "$lib/components/InputError.svelte";
 
-    let { form, data }: PageProps = $props();
+    let { data }: PageProps = $props();
 
 	const annotatedText = data.annotatedText;
 	const baseRubyPairs: BaseRubyPair[] = []
-	// let isInitialLoad = $state(true);
+
 	if (annotatedText) {
 		let prevSegEnd = 0
 		for (const segment of annotatedText.segments) {
@@ -42,10 +39,4 @@
 
 </script>
 
-{#if form?.error?.properties?.baseText}
-	{#each form?.error?.properties.baseText?.errors as error }
-		<InputError errorText={error}/>
-	{/each}
-{:else }
-    <Run baseRubyPairs={baseRubyPairs}/>
-{/if}
+<Run baseRubyPairs={baseRubyPairs}/>

@@ -1,10 +1,9 @@
 import type { Actions } from './$types';
-import GenerateRequest from "$lib/schemas/GenerateRubyClientRequest";
-import { error, fail, type RequestEvent } from "@sveltejs/kit";
-import db from "$lib/server/db";
 import { z } from "zod/v4";
-import rubify from '$lib/rubify';
-import type { AnnotatedText } from '$lib/types';
+import db from "$lib/server/db";
+import GenerateRequest from "$lib/schemas/GenerateRubyClientRequest";
+import { fail, redirect, type RequestEvent } from "@sveltejs/kit";
+
 
 function generateSessionId() {
   const byteArray = crypto.getRandomValues(new Uint8Array(32));
@@ -17,26 +16,13 @@ function generateSessionId() {
   return hexString;
 }
 
-interface PageLoadResponse {
-    isInitialLoad: boolean;
-    annotatedText?: AnnotatedText;
-}
+interface RootPageLoadResponse {}
 
-export const load = async ({ cookies }): Promise<PageLoadResponse> => {
-	let sessionId = cookies.get('sessionid');
-    if (sessionId) {
-        const request = await db.read(sessionId);
-        if (request) {
-            db.delete(sessionId);
-            return {isInitialLoad: false, annotatedText: rubify(request.baseText)};
-        }
-    }
-
+export const load = async ({ cookies }): Promise<RootPageLoadResponse> => {
     let sid = generateSessionId();
     cookies.set('sessionid', sid, { path: '/' });
-    return {isInitialLoad: true}
+    return {}
 };
-
 
 async function handleGenerateRequest(event: RequestEvent) {
     const formData = await event.request.formData();
@@ -58,7 +44,7 @@ async function handleGenerateRequest(event: RequestEvent) {
     }
     await db.write(requestEntry);
 
-    return {success: true};
+    throw redirect(303, '/generate');
 }
 
 export const actions = {

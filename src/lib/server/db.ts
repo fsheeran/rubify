@@ -46,18 +46,28 @@ async function buildDatabaseController(provider = DataProvider.LowDb): Promise<D
                 defaultData
             )
 
+            const shouldDeleteRelNow = () => {
+                return (entry: GenerateRubifyRequestEntry) => entry.timestamp < Date.now() - db.data.configuration.ttl
+            }
+
             return {
                 write: async (requestEntry) => {
                     db.update(({ requests }) => requests[requestEntry.uuid] = requestEntry)
                 },
                 // gonna need to handle some errors better here
-                read: async (uuid) => db.data.requests[uuid],
+                read: async (uuid) => {
+                    if (uuid in db.data.requests && shouldDeleteRelNow()(db.data.requests[uuid])) {
+                        delete db.data.requests[uuid];
+                    }
+
+                    return db.data.requests[uuid]
+                },
                 delete: async (uuid) => db.update(({ requests }) => delete requests[uuid]),
                 evict: async () => {
-                    const cutoff = Date.now() - db.data.configuration.ttl;
+                    const shouldDelete = shouldDeleteRelNow();
                     const toDelete = [];
                     for (const [uuid, request] of Object.entries(db.data.requests)) {
-                        if (request.timestamp < cutoff) {
+                        if (shouldDelete(request)) {
                             toDelete.push(uuid);
                         }
                     }
