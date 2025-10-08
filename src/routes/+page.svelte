@@ -12,11 +12,6 @@
 		align-items: center;
 		flex-direction: column;
 	}
-	.button-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
 </style>
 
 <form class="vert-container" method="POST">

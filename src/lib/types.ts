@@ -16,7 +16,20 @@ export interface AnnotatedText {
     segments: AnnotatedTextSegment[];
 }
 
-export type BaseRubyPair = [string, string | null]
-export interface RubiedTextProps {
+export interface BaseRubyPair {
+    baseText: string;
+    rubyText?: string;
+}
+
+export interface RunProps {
     baseRubyPairs: BaseRubyPair[]
+}
+
+export interface RubiedTextProps {
+    pair: BaseRubyPair;
+}
+
+export interface ButtonProps {
+    buttonText: string;
+    onClick(): void;
 }

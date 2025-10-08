@@ -1,5 +1,7 @@
 <script lang="ts">
-	let { baseText, rubyText } = $props();
+    import type { RubiedTextProps } from "../types";
+
+	const { pair } : RubiedTextProps = $props();
 	let baseWidth = $state();
 	let hiddenTextWidth = $state();
 
@@ -7,9 +9,9 @@
 
 <span class="flex-container">
 
-	<span bind:clientWidth={hiddenTextWidth} id="hidden-text">{rubyText}</span>
-	<input class="ruby-text" style="min-width: {baseWidth}px; width: {hiddenTextWidth}px" type="text" bind:value={rubyText}>
-    <span bind:clientWidth={baseWidth} class=ruby-base>{baseText}</span>
+	<span bind:clientWidth={hiddenTextWidth} id="hidden-text">{pair.rubyText}</span>
+	<input class="ruby-text" style="min-width: {baseWidth}px; width: {hiddenTextWidth}px" type="text" bind:value={pair.rubyText}>
+    <span bind:clientWidth={baseWidth} class=ruby-base>{pair.baseText}</span>
 
 </span>
 
