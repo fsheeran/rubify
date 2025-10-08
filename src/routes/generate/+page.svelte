@@ -1,6 +1,5 @@
 <script lang="ts">
 
-	import Run from "$lib/components/EditableRun.svelte";
 	import Button from "$lib/components/Button.svelte";
 	import type { PageProps } from "./$types";
 	import type { BaseRubyPair } from "$lib/types";
