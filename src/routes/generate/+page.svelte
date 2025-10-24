@@ -50,18 +50,25 @@
 </script>
 
 
-<!-- <style>
-	.button-container {
-		display: flex;
-		align-items: center;
-		justify-content: center;
+<style>
+	.text-container {
+		margin: auto;
+		max-width: 66vw;
+		width: 100%;
+		font-size: calc(24px + 8 * (100vw - 1000px) / 3000 );
 	}
-</style> -->
+</style>
+
+
 
 {#if isFinalized}
+<div class="text-container">
 	<FinalizedRun baseRubyPairs={baseRubyPairs}/>
+</div>
 	<Button buttonText="Keep editing" onClick={() => isFinalized = false}/>
 {:else}
+<div class="text-container">
 	<EditableRun baseRubyPairs={baseRubyPairs}/>
+</div>
 	<Button buttonText="Finalize" onClick={() => isFinalized = true}/>
 {/if}
