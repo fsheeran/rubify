@@ -5,13 +5,15 @@
 	import type { BaseRubyPair } from "$lib/types";
     import EditableRun from "$lib/components/EditableRun.svelte";
     import FinalizedRun from "$lib/components/FinalizedRun.svelte";
+	import generateDocx from "$lib/generateDocx";
+	import { saveFile } from "$lib/fileUtils";
 
     let { data }: PageProps = $props();
 
 	const annotatedText = data.annotatedText;
 	const baseRubyPairs: BaseRubyPair[] = $state([]);
 
-	let isFinalized = $state(false);
+	// let isFinalized = $state(false);
 
 	if (annotatedText) {
 		let prevSegEnd = 0
@@ -61,14 +63,14 @@
 
 
 
-{#if isFinalized}
-<div class="text-container">
+<!-- {#if isFinalized} -->
+<!-- <div class="text-container">
 	<FinalizedRun baseRubyPairs={baseRubyPairs}/>
 </div>
 	<Button buttonText="Keep editing" onClick={() => isFinalized = false}/>
-{:else}
+{:else} -->
 <div class="text-container">
 	<EditableRun baseRubyPairs={baseRubyPairs}/>
 </div>
-	<Button buttonText="Finalize" onClick={() => isFinalized = true}/>
-{/if}
+<Button buttonText="Download as docx" onClick={async() => saveFile(await generateDocx(baseRubyPairs), 'rubify.docx')}/>
+<!-- {/if} -->
