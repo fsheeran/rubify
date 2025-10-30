@@ -1,5 +1,4 @@
 import db from "$lib/server/db";
-
 import { redirect } from "@sveltejs/kit";
 import type { AnnotatedText } from "$lib/types";
 import rubify from '$lib/rubify';
