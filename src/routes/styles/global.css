@@ -1,13 +1,3 @@
-/* zen-old-mincho-regular - japanese */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Zen Old Mincho';
-  font-style: normal;
-  font-weight: 100 900;
-  src: url('../fonts/zen-old-mincho-v13-japanese-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-
 body {
     font-family: "EB Garamond", "Zen Old Mincho";
     font-size: 1.5rem;

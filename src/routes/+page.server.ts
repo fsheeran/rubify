@@ -2,7 +2,9 @@ import type { Actions } from './$types';
 import { z } from "zod/v4";
 import db from "$lib/server/db";
 import GenerateRequest from "$lib/schemas/GenerateRubyClientRequest";
-import { fail, redirect, type RequestEvent } from "@sveltejs/kit";
+import { fail, type RequestEvent } from "@sveltejs/kit";
+import rubify from '$lib/rubify';
+import type { AnnotatedText } from '$lib/types';
 
 
 function generateSessionId() {
@@ -16,9 +18,20 @@ function generateSessionId() {
   return hexString;
 }
 
-interface RootPageLoadResponse {}
+interface RootPageLoadResponse {
+    annotatedText?: AnnotatedText;
+}
 
 export const load = async ({ cookies }): Promise<RootPageLoadResponse> => {
+
+    let sessionId = cookies.get('sessionid');
+    if (sessionId) {
+        const request = await db.read(sessionId);
+        if (request) {
+            return {annotatedText: rubify(request.baseText)};
+        }
+    }
+
     let sid = generateSessionId();
     cookies.set('sessionid', sid, { path: '/' });
     return {}
@@ -44,7 +57,8 @@ async function handleGenerateRequest(event: RequestEvent) {
     }
     await db.write(requestEntry);
 
-    throw redirect(303, '/generate');
+    return { success: true };
+
 }
 
 export const actions = {

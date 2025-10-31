@@ -1,15 +1,16 @@
 <script lang="ts">
-	import Button from "$lib/components/Button.svelte";
-	import type { PageProps } from "./$types";
-	import type { BaseRubyPair } from "$lib/types";
+	import type { AnnotatedText, BaseRubyPair } from "$lib/types";
 	import EditableRun from "$lib/components/EditableRun.svelte";
 	import { saveFile } from "$lib/fileUtils";
 	import { getTransformers } from "$lib/fileFormatTransformers";
     import InputError from "$lib/components/InputError.svelte";
 
-	let { data }: PageProps = $props();
+    interface RubyRequestResult {
+        annotatedText: AnnotatedText | undefined;
+    }
 
-	const annotatedText = data.annotatedText;
+	let { annotatedText }: RubyRequestResult = $props();
+
 	const baseRubyPairs: BaseRubyPair[] = $state([]);
 
 	let dropdownExpanded = $state(false);
