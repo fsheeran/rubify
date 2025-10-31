@@ -1,32 +1,30 @@
-/* lora-regular - latin_latin-ext */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Lora';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/lora-v37-latin_latin-ext-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/* noto-serif-jp-regular - japanese */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: 'Noto Serif JP';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../fonts/noto-serif-jp-v32-japanese-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
 /* zen-old-mincho-regular - japanese */
 @font-face {
   font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
   font-family: 'Zen Old Mincho';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   src: url('../fonts/zen-old-mincho-v13-japanese-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
 }
 
 
 body {
-    font-family: 'Lora', 'Zen Old Mincho';
+    font-family: "EB Garamond", "Zen Old Mincho";
     font-size: 1.5rem;
+    background-image: url("../background.png"); 
+    background-repeat: repeat;
+}
+
+button {
+    font-family: "EB Garamond";
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }

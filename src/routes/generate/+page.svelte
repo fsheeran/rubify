@@ -121,15 +121,6 @@
 		width: 100%;
 		font-size: calc(24px + 8 * (100vw - 1000px) / 3000);
 	}
-	.visually-hidden {
-		clip: rect(0 0 0 0);
-		clip-path: inset(50%);
-		height: 1px;
-		overflow: hidden;
-		position: absolute;
-		white-space: nowrap;
-		width: 1px;
-	}
 
 	ul {
 		list-style: none;
