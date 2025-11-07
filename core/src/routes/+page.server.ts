@@ -28,7 +28,7 @@ export const load = async ({ cookies }): Promise<RootPageLoadResponse> => {
     if (sessionId) {
         const request = await db.read(sessionId);
         if (request) {
-            return {annotatedText: rubify(request.baseText)};
+            return {annotatedText: {baseText: request.baseText, segments: await rubify(request.baseText)}};
         }
     }
 

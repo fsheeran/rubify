@@ -1,16 +1,16 @@
 <script lang="ts">
     import RubiedText from "./RubiedText.svelte";
     import UnrubiedText from "./UnrubiedText.svelte";
-    import type { RunProps } from "../types";
+    import type { EditableRunProps } from "../types";
 
-    let { baseRubyPairs }: RunProps = $props();
+    let { baseRubyPairs, onEdit }: EditableRunProps = $props();
 
 </script>
 
 <p>
-{#each baseRubyPairs as baseRubyPair}
+{#each baseRubyPairs as baseRubyPair, i}
     {#if 'rubyText' in baseRubyPair}
-        <RubiedText pair={baseRubyPair} ></RubiedText>
+        <RubiedText pair={baseRubyPair} onEdit={(pair) => onEdit(i, pair)} ></RubiedText>
     {:else}
         <UnrubiedText text={baseRubyPair.baseText}/>
     {/if}

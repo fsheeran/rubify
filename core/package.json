@@ -12,10 +12,12 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"test:ui": "vitest --ui"
+		"test:ui": "vitest --ui",
+		"update-dictionaries": "./update_dictionaries.sh && node convert-jmdict.js"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^6.1.1",
+		"@sveltejs/adapter-node": "^5.4.0",
 		"@sveltejs/kit": "^2.22.0",
 		"@sveltejs/vite-plugin-svelte": "^6.0.0",
 		"svelte": "^5.0.0",
@@ -28,6 +30,7 @@
 	"dependencies": {
 		"fast-xml-parser": "^5.3.0",
 		"jszip": "^3.10.1",
-		"lowdb": "^7.0.1"
+		"lowdb": "^7.0.1",
+		"wanakana": "^5.3.1"
 	}
 }

@@ -23,3 +23,8 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+.continueignore
+.prettierrc
+
+core/src/lib/server/assets/JmdictFurigana.json

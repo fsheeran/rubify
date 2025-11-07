@@ -1,0 +1,12 @@
+version: '3'
+services:
+  konoha:
+    image: himkt/konoha
+    ports:
+      - "8000:8000"
+  rubify:
+    build: .
+    environment:
+      - ORIGIN=http://localhost:3000
+    ports:
+      - "3000:3000"

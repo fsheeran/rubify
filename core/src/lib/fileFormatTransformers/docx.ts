@@ -5,7 +5,7 @@ import * as fs from "fs";
 import { XMLParser, XMLBuilder } from "fast-xml-parser";
 
 const transform = async function (baseRubyPairs: BaseRubyPair[]): Promise<Blob> {
-    let zip = await JSZip.loadAsync(fs.readFileSync("src/assets/template.docx"));
+    let zip = await JSZip.loadAsync(fs.readFileSync("$lib/server/assets/template.docx"));
     let text = await zip.file('word/document.xml')?.async("string");
     if (!text) {
         return new Blob();
