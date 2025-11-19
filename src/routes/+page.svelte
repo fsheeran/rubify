@@ -15,7 +15,7 @@
 </h1>
 
 {#if form?.success}
-	<RubifyRequestResult annotatedText={data.annotatedText}/>
+	<RubifyRequestResult annotatedText={data.annotatedText} availableFileExtensions={data.availableFileExtensions}/>
 {:else}
 	<RubifyRequestForm/>
 

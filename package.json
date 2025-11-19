@@ -12,8 +12,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test": "vitest run",
 		"test:watch": "vitest",
-		"test:ui": "vitest --ui",
-		"update-dictionaries": "./update_dictionaries.sh && node convert-jmdict.js"
+		"test:ui": "vitest --ui"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^6.1.1",

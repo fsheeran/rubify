@@ -2,14 +2,14 @@
     import type { AnnotatedText, BaseRubyPair } from "$lib/types";
     import EditableRun from "$lib/components/EditableRun.svelte";
     import { saveFile } from "$lib/fileUtils";
-    import { getTransformers } from "$lib/fileFormatTransformers";
     import InputError from "$lib/components/InputError.svelte";
 
     interface RubyRequestResult {
         annotatedText: AnnotatedText | undefined;
+        availableFileExtensions: string[];
     }
 
-    let { annotatedText }: RubyRequestResult = $props();
+    let { annotatedText, availableFileExtensions }: RubyRequestResult = $props();
 
     let baseRubyPairs: BaseRubyPair[] = $state([]);
 
@@ -21,10 +21,35 @@
         for (const segment of annotatedText.segments) {
             if (segment.annotations) {
                 if (segment.annotations.length > 0) {
-                    for (const annotation of segment.annotations) {
+                    if (segment.annotations[0].indices[0] > segment.indices[0]) {
+                        baseRubyPairs.push({
+                            baseText: annotatedText.baseText.slice(
+                                segment.indices[0],
+                                segment.annotations[0].indices[0],
+                            ),
+                        });
+                    }
+                    for (let i = 0; i < segment.annotations.length; i++) {
+                        let annotation = segment.annotations[i];
+                        if (i > 0 && segment.annotations[i - 1].indices[1] < annotation.indices[0]) {
+                            baseRubyPairs.push({
+                                baseText: annotatedText.baseText.slice(
+                                    segment.annotations[i - 1].indices[1],
+                                    annotation.indices[0],
+                                ),
+                            });
+                        }
                         baseRubyPairs.push({
                             baseText: annotatedText.baseText.slice(annotation.indices[0], annotation.indices[1]),
                             rubyText: annotation.annotationText,
+                        });
+                    }
+                    if (segment.annotations[segment.annotations.length - 1].indices[1] < segment.indices[1]) {
+                        baseRubyPairs.push({
+                            baseText: annotatedText.baseText.slice(
+                                segment.annotations[segment.annotations.length - 1].indices[1],
+                                segment.indices[1],
+                            ),
                         });
                     }
                 } else {
@@ -67,12 +92,11 @@
     <EditableRun
         {baseRubyPairs}
         onEdit={(pairIndex, pair) => {
-            baseRubyPairs ??= [];
             baseRubyPairs[pairIndex] = pair;
         }}
     />
-<!-- <Button buttonText="Copy to clipboard as HTML" onClick={}/> -->
-<!-- <Button buttonText="Download as docx" onClick={async() => saveFile(await generateDocx(baseRubyPairs), 'rubify.docx')}/> -->
+    <!-- <Button buttonText="Copy to clipboard as HTML" onClick={}/> -->
+    <!-- <Button buttonText="Download as docx" onClick={async() => saveFile(await generateDocx(baseRubyPairs), 'rubify.docx')}/> -->
 
     <div class="dropdown">
         <button
@@ -83,7 +107,7 @@
             Download as...
         </button>
         <ul class="dropdown-menu {dropdownExpanded ? '' : 'visually-hidden'}">
-            {#each getTransformers() as { fileExtension, transformerFunction }}
+            {#each availableFileExtensions as fileExtension }
                 <li>
                     <button aria-hidden={!dropdownExpanded} onclick={exportRuby(fileExtension)}>
                         {`.${fileExtension}`}
@@ -93,13 +117,10 @@
         </ul>
     </div>
 
-
     {#if exportError}
         <InputError errorText={JSON.stringify(exportError)} />
     {/if}
-
 </div>
-
 
 <!-- {/if} -->
 

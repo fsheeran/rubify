@@ -1,12 +1,27 @@
-import { getTransformer } from '$lib/fileFormatTransformers/index.js';
-import ExportRequest from '$lib/schemas/ExportRequest';
-import z from 'zod/v4';
+import { getTransformer, getTransformers } from '$lib/server/fileFormatTransformers';
 import type { RequestHandler } from './$types';
-import { json, fail } from '@sveltejs/kit';
 
-interface ExportResponse {
-    data: Blob;
-}
+import * as z from "zod/v4";
+
+const fileExtension = z.literal(getTransformers().map(transformer => transformer.fileExtension));
+
+const baseText = z.coerce
+                    .string()
+                    .trim()
+                    .normalize()
+                    .max(1000)
+                    .min(1);
+
+const rubyText = z.coerce
+                    .string()
+                    .normalize()
+                    .max(10)
+                    .optional();
+
+const baseRubyPairs = z.array(z.strictObject({baseText, rubyText}));
+
+const ExportRequest = z.object({ fileExtension, baseRubyPairs });
+
 
 export const POST: RequestHandler = async ( { request } ) => {
     
