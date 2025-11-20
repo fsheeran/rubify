@@ -9,5 +9,3 @@ registry.registerTransformer(docx.transformer);
 export const getTransformer = registry.getTransformer;
 
 export const getTransformers = registry.getTransformers;
-
-// TODO: actually i think this whole thing needs to go on the server???

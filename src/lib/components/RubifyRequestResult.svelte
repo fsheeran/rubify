@@ -65,13 +65,11 @@
     }
 
     const exportRuby = (fileExtension: string) => async () => {
-        // console.log(`making body: ${JSON.stringify({fileExtension, baseRubyPairs})}`);
         const request = new Request("/export", {
             method: "POST",
             body: JSON.stringify({ fileExtension, baseRubyPairs }),
         });
 
-        // console.log(`submitting ${request.body}`)
 
         const response = await fetch(request);
         if (!response.ok) {

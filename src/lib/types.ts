@@ -1,7 +1,6 @@
 export type IndexPair = [number, number]
 
 export interface Annotation {
-    // annotation indices should be relative to segment, not full base text
     indices: IndexPair;
     annotationText?: string;
 }

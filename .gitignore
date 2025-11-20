@@ -28,4 +28,5 @@ vite.config.ts.timestamp-*
 .prettierrc
 .old
 
-core/src/lib/server/assets/JmdictFurigana.json
+JmdictFurigana.json
+db.json
