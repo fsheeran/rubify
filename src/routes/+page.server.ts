@@ -2,26 +2,45 @@ import type { Actions } from './$types';
 import { z } from "zod/v4";
 import db from "$lib/server/db";
 import GenerateRequest from "$lib/schemas/GenerateRubyClientRequest";
-import { fail, redirect, type RequestEvent } from "@sveltejs/kit";
+import { fail, type RequestEvent } from "@sveltejs/kit";
+import rubify from '$lib/server/rubify';
+import type { AnnotatedText } from '$lib/types';
+import { getTransformers } from '$lib/server/fileFormatTransformers';
 
 
 function generateSessionId() {
-  const byteArray = crypto.getRandomValues(new Uint8Array(32));
+    const byteArray = crypto.getRandomValues(new Uint8Array(32));
 
-  let hexString = '';
-  for (let i = 0; i < byteArray.length; i++) {
-    hexString += byteArray[i].toString(16).padStart(2, '0');
-  }
+    let hexString = '';
+    for (let i = 0; i < byteArray.length; i++) {
+        hexString += byteArray[i].toString(16).padStart(2, '0');
+    }
 
-  return hexString;
+    return hexString;
 }
 
-interface RootPageLoadResponse {}
+interface RootPageLoadResponse {
+    annotatedText?: AnnotatedText;
+    availableFileExtensions: string[];
+}
 
 export const load = async ({ cookies }): Promise<RootPageLoadResponse> => {
+
+    let availableFileExtensions = getTransformers().map(transformer => transformer.fileExtension);
+    let sessionId = cookies.get('sessionid');
+    if (sessionId) {
+        const request = await db.read(sessionId);
+        if (request) {
+            return {
+                annotatedText: { baseText: request.baseText, segments: await rubify(request.baseText) },
+                availableFileExtensions: availableFileExtensions,
+            };
+        }
+    }
+
     let sid = generateSessionId();
     cookies.set('sessionid', sid, { path: '/' });
-    return {}
+    return { availableFileExtensions };
 };
 
 async function handleGenerateRequest(event: RequestEvent) {
@@ -44,7 +63,8 @@ async function handleGenerateRequest(event: RequestEvent) {
     }
     await db.write(requestEntry);
 
-    throw redirect(303, '/generate');
+    return { success: true };
+
 }
 
 export const actions = {

@@ -1,0 +1,12 @@
+version: '3'
+services:
+  rubify-backend:
+    image: rubify-backend:latest
+    ports:
+      - "8000:8000"
+  rubify:
+    build: .
+    environment:
+      - ORIGIN=http://localhost:3000
+    ports:
+      - "3000:3000"
